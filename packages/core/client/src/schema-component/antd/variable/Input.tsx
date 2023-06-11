@@ -2,7 +2,7 @@ import { CloseCircleFilled } from '@ant-design/icons';
 import { css, cx } from '@emotion/css';
 import { useForm } from '@formily/react';
 import { Input as AntInput, Cascader, DatePicker, InputNumber, Select, Tag } from 'antd';
-import moment from 'moment';
+import moment from 'dayjs';
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
