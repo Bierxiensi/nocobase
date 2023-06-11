@@ -1,21 +1,20 @@
 import { css } from '@emotion/css';
-import { ArrayTable, FormButtonGroup, FormDrawer, FormLayout, Submit } from '@formily/antd';
+import { ArrayTable, FormButtonGroup, FormDrawer, FormLayout, Submit } from '@formily/antd-v5';
 import { onFieldValueChange } from '@formily/core';
-import { SchemaOptionsContext, useForm, useFormEffects, ISchema } from '@formily/react';
+import { ISchema, SchemaOptionsContext, useForm, useFormEffects } from '@formily/react';
 import { Button, Select } from 'antd';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
   Cron,
+  IField,
   SchemaComponent,
   SchemaComponentOptions,
-  useCompile,
   interfacesProperties,
-  IField,
-  useCollectionField,
+  useCompile
 } from '@nocobase/client';
-import { lang, NAMESPACE } from './locale';
+import { NAMESPACE, lang } from './locale';
 
 function RuleTypeSelect(props) {
   const compile = useCompile();

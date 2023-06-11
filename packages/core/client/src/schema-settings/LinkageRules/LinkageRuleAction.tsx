@@ -1,6 +1,6 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { css } from '@emotion/css';
-import { TreeSelect } from '@formily/antd';
+import { TreeSelect } from '@formily/antd-v5';
 import { observer } from '@formily/react';
 import { uid } from '@formily/shared';
 import { Select, Space } from 'antd';
