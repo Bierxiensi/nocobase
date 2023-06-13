@@ -1,8 +1,8 @@
 import { CloseCircleFilled } from '@ant-design/icons';
 import { css, cx } from '@emotion/css';
 import { useForm } from '@formily/react';
+import { dayjs } from '@nocobase/utils/client';
 import { Input as AntInput, Cascader, DatePicker, InputNumber, Select, Tag } from 'antd';
-import moment from 'dayjs';
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -94,7 +94,7 @@ const ConstantTypes = {
     component: function DateComponent({ onChange, value }) {
       return (
         <DatePicker
-          value={moment(value)}
+          value={dayjs(value)}
           onChange={(d) => (d ? onChange(d.toDate()) : null)}
           allowClear={false}
           showTime
