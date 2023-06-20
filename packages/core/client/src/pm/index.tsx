@@ -9,13 +9,13 @@ import { useACLRoleContext } from '../acl/ACLProvider';
 import { ACLPane } from '../acl/ACLShortcut';
 import { useRequest } from '../api-client';
 import { CollectionManagerPane } from '../collection-manager';
-import { useDocumentTitle } from '../document-title';
 import { Icon } from '../icon';
 import { RouteSwitchContext } from '../route-switch';
 import { useCompile } from '../schema-component';
 import { BlockTemplatesPane } from '../schema-templates';
 import { SystemSettingsPane } from '../system-settings';
 import { BuiltInPluginCard, PluginCard } from './Card';
+import { useStyles } from './style';
 
 export interface TData {
   data: IPluginData[];
@@ -109,13 +109,13 @@ const MarketplacePlugins = () => {
   return <div style={{ fontSize: 18 }}>{t('Coming soon...')}</div>;
 };
 
-const PluginList = (props) => {
+const PluginList = () => {
   const params = useParams<any>();
   const navigate = useNavigate();
   const { tabName = 'local' } = params;
-  const { setTitle } = useDocumentTitle();
   const { t } = useTranslation();
   const { snippets = [] } = useACLRoleContext();
+  const { styles } = useStyles();
 
   useEffect(() => {
     const { tabName } = params;
@@ -127,10 +127,7 @@ const PluginList = (props) => {
   return snippets.includes('pm') ? (
     <div>
       <PageHeader
-        style={{
-          backgroundColor: 'white',
-          paddingBottom: 0,
-        }}
+        className={styles.pageHeader}
         ghost={false}
         title={t('Plugin manager')}
         footer={
@@ -240,7 +237,8 @@ export const getPluginsTabs = _.memoize((items, snippets) => {
   return sortBy(pluginsTabs, (o) => !o.isAllow);
 });
 
-const SettingsCenter = (props) => {
+const SettingsCenter = () => {
+  const { styles } = useStyles();
   const { snippets = [] } = useACLRoleContext();
   const params = useParams<any>();
   const navigate = useNavigate();
@@ -311,7 +309,7 @@ const SettingsCenter = (props) => {
         <Layout.Content>
           {aclPluginTabCheck && (
             <PageHeader
-              style={{ backgroundColor: 'white', paddingBottom: 0 }}
+              className={styles.pageHeader}
               ghost={false}
               title={compile(items[pluginName]?.title)}
               footer={
