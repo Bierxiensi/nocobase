@@ -27,7 +27,7 @@ ReadPretty.File = function File(props: UploadProps) {
   const [photoIndex, setPhotoIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const { size } = props;
-  const { wrapSSR, hashId, className: prefixCls } = useStyles();
+  const { wrapSSR, hashId, componentCls: prefixCls } = useStyles();
 
   return wrapSSR(
     <div>

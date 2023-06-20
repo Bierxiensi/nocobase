@@ -32,7 +32,7 @@ export const FileSelector = (props: Props) => {
   const [photoIndex, setPhotoIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const { t } = useTranslation();
-  const { wrapSSR, hashId, className: prefixCls } = useStyles();
+  const { wrapSSR, hashId, componentCls: prefixCls } = useStyles();
 
   // 兼容旧版本
   const showSelectButton = selectFile === undefined && quickUpload === undefined;
