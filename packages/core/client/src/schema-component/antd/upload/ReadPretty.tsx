@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import Lightbox from 'react-image-lightbox';
 import { useRecord } from '../../../record-provider';
 import { isImage, toArr, toImages } from './shared';
+import { useStyles } from './style';
 import type { UploadProps } from './type';
 
 type Composed = React.FC<UploadProps> & {
@@ -26,10 +27,20 @@ ReadPretty.File = function File(props: UploadProps) {
   const [photoIndex, setPhotoIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const { size } = props;
-  return (
+  const { wrapSSR, hashId, className: prefixCls } = useStyles();
+
+  return wrapSSR(
     <div>
-      <div className={cls('ant-upload-picture-card-wrapper nb-upload', size ? `nb-upload-${size}` : null)}>
-        <div className={'ant-upload-list ant-upload-list-picture-card'}>
+      <div
+        className={cls(
+          `${prefixCls}-wrapper`,
+          `${prefixCls}-picture-card-wrapper`,
+          `nb-upload`,
+          size ? `${prefixCls}-${size}` : null,
+          hashId,
+        )}
+      >
+        <div className={cls(`${prefixCls}-list`, `${prefixCls}-list-picture-card`)}>
           {images.map((file) => {
             const handleClick = (e) => {
               const index = images.indexOf(file);
@@ -44,12 +55,21 @@ ReadPretty.File = function File(props: UploadProps) {
               // }
             };
             return (
-              <div key={file.name} className={'ant-upload-list-picture-card-container'}>
-                <div className="ant-upload-list-item ant-upload-list-item-done ant-upload-list-item-list-type-picture-card">
-                  <div className={'ant-upload-list-item-info'}>
-                    <span className="ant-upload-span">
+              <div
+                key={file.name}
+                className={cls(`${prefixCls}-list-picture-card-container`, `${prefixCls}-list-item-container`)}
+              >
+                <div
+                  className={cls(
+                    `${prefixCls}-list-item`,
+                    `${prefixCls}-list-item-done`,
+                    `${prefixCls}-list-item-list-type-picture-card`,
+                  )}
+                >
+                  <div className={`${prefixCls}-list-item-info`}>
+                    <span className={`${prefixCls}-span`}>
                       <a
-                        className="ant-upload-list-item-thumbnail"
+                        className={`${prefixCls}-list-item-thumbnail`}
                         href={file.url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -59,14 +79,14 @@ ReadPretty.File = function File(props: UploadProps) {
                           <img
                             src={`${file.imageUrl}?x-oss-process=style/thumbnail`}
                             alt={file.title}
-                            className="ant-upload-list-item-image"
+                            className={`${prefixCls}-list-item-image`}
                           />
                         )}
                       </a>
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="ant-upload-list-item-name"
+                        className={`${prefixCls}-list-item-name`}
                         title={file.title}
                         href={file.url}
                         onClick={handleClick}
@@ -76,7 +96,7 @@ ReadPretty.File = function File(props: UploadProps) {
                     </span>
                   </div>
                   {size !== 'small' && (
-                    <span className={'ant-upload-list-item-actions'}>
+                    <span className={`${prefixCls}-list-item-actions`}>
                       <Space size={3}>
                         <Button
                           size={'small'}
@@ -132,11 +152,11 @@ ReadPretty.File = function File(props: UploadProps) {
           ]}
         />
       )}
-    </div>
+    </div>,
   );
 };
 
-ReadPretty.Upload = function Upload(props) {
+ReadPretty.Upload = function Upload() {
   const field = useField<Field>();
   return (field.value || []).map((item) => (
     <div key={item.name}>

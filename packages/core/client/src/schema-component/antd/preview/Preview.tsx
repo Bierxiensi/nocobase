@@ -2,7 +2,6 @@ import { DeleteOutlined, DownloadOutlined, PlusOutlined } from '@ant-design/icon
 import { connect, mapReadPretty } from '@formily/react';
 import { Upload as AntdUpload, Button, Progress, Space } from 'antd';
 import cls from 'classnames';
-import { css } from '@emotion/css';
 import { saveAs } from 'file-saver';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +9,7 @@ import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css'; // This only needs to be imported once in your app
 import { ReadPretty } from '../upload/ReadPretty';
 import { isImage, toFileList, useUploadProps } from '../upload/shared';
-import '../upload/style.less';
+import { useStyles } from '../upload/style';
 import { UploadProps } from '../upload/type';
 
 type Props = UploadProps & {
@@ -33,6 +32,7 @@ export const FileSelector = (props: Props) => {
   const [photoIndex, setPhotoIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const { t } = useTranslation();
+  const { wrapSSR, hashId, className: prefixCls } = useStyles();
 
   // 兼容旧版本
   const showSelectButton = selectFile === undefined && quickUpload === undefined;
@@ -53,10 +53,10 @@ export const FileSelector = (props: Props) => {
 
   const list = fileList.length ? (multiple ? fileList : [fileList[fileList.length - 1]]) : [];
 
-  return (
+  return wrapSSR(
     <div>
-      <div className={cls('ant-upload-picture-card-wrapper nb-upload')}>
-        <div className={'ant-upload-list ant-upload-list-picture-card'}>
+      <div className={cls(`${prefixCls}-wrapper`, `${prefixCls}-picture-card-wrapper`, 'nb-upload', hashId)}>
+        <div className={cls(`${prefixCls}-list`, `${prefixCls}-list-picture-card`)}>
           {list.map((file) => {
             const handleClick = (e) => {
               e.preventDefault();
@@ -70,25 +70,34 @@ export const FileSelector = (props: Props) => {
               }
             };
             return (
-              <div key={file.id} className={'ant-upload-list-picture-card-container'}>
-                <div className="ant-upload-list-item ant-upload-list-item-done ant-upload-list-item-list-type-picture-card">
-                  <div className={'ant-upload-list-item-info'}>
-                    <span className="ant-upload-span">
+              <div
+                key={file.id}
+                className={`${prefixCls}-list-picture-card-container ${prefixCls}-list-item-container`}
+              >
+                <div
+                  className={cls(
+                    `${prefixCls}-list-item`,
+                    `${prefixCls}-list-item-done`,
+                    `${prefixCls}-list-item-list-type-picture-card`,
+                  )}
+                >
+                  <div className={`${prefixCls}-list-item-info`}>
+                    <span className={`${prefixCls}-span`}>
                       <a
-                        className="ant-upload-list-item-thumbnail"
+                        className={`${prefixCls}-list-item-thumbnail`}
                         href={file.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={handleClick}
                       >
                         {file.imageUrl && (
-                          <img src={file.imageUrl} alt={file.title} className="ant-upload-list-item-image" />
+                          <img src={file.imageUrl} alt={file.title} className={`${prefixCls}-list-item-image`} />
                         )}
                       </a>
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="ant-upload-list-item-name"
+                        className={`${prefixCls}-list-item-name`}
                         title={file.title}
                         href={file.url}
                         onClick={handleClick}
@@ -97,7 +106,7 @@ export const FileSelector = (props: Props) => {
                       </a>
                     </span>
                   </div>
-                  <span className={'ant-upload-list-item-actions'}>
+                  <span className={`${prefixCls}-list-item-actions`}>
                     <Space size={3}>
                       <Button
                         size={'small'}
@@ -120,7 +129,7 @@ export const FileSelector = (props: Props) => {
                     </Space>
                   </span>
                   {file.status === 'uploading' && (
-                    <div className={'ant-upload-list-item-progress'}>
+                    <div className={`${prefixCls}-list-item-progress`}>
                       <Progress strokeWidth={2} type={'line'} showInfo={false} percent={file.percent} />
                     </div>
                   )}
@@ -130,7 +139,7 @@ export const FileSelector = (props: Props) => {
           })}
           <>
             {showSelectButton ? (
-              <div className={'ant-upload-list-picture-card-container'}>
+              <div className={cls(`${prefixCls}-list-picture-card-container`, `${prefixCls}-list-item-container`)}>
                 <AntdUpload
                   disabled={disabled}
                   multiple={multiple}
@@ -156,7 +165,7 @@ export const FileSelector = (props: Props) => {
               </div>
             ) : null}
             {quickUpload ? (
-              <div className={'ant-upload-list-picture-card-container'}>
+              <div className={cls(`${prefixCls}-list-picture-card-container`, `${prefixCls}-list-item-container`)}>
                 <AntdUpload
                   {...uploadProps}
                   disabled={disabled}
@@ -188,7 +197,7 @@ export const FileSelector = (props: Props) => {
               </div>
             ) : null}
             {selectFile ? (
-              <div className={'ant-upload-list-picture-card-container'}>
+              <div className={cls(`${prefixCls}-list-picture-card-container`, `${prefixCls}-list-item-container`)}>
                 <AntdUpload
                   disabled={disabled}
                   multiple={multiple}
@@ -229,6 +238,7 @@ export const FileSelector = (props: Props) => {
           imageTitle={fileList[photoIndex]?.title}
           toolbarButtons={[
             <button
+              key={'preview-img'}
               style={{ fontSize: 22, background: 'none', lineHeight: 1 }}
               type="button"
               aria-label="Zoom in"
@@ -245,7 +255,7 @@ export const FileSelector = (props: Props) => {
           ]}
         />
       )}
-    </div>
+    </div>,
   );
 };
 
