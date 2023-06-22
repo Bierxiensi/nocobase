@@ -1,6 +1,6 @@
 import { useDndContext, useDndMonitor, useDraggable, useDroppable } from '@dnd-kit/core';
 import { css } from '@emotion/css';
-import { observer, RecursionField, Schema, useField, useFieldSchema } from '@formily/react';
+import { RecursionField, Schema, observer, useField, useFieldSchema } from '@formily/react';
 import { uid } from '@formily/shared';
 import cls from 'classnames';
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -66,7 +66,7 @@ const ColDivider = (props) => {
       if (!isDragging) {
         return;
       }
-      dragIdRef.current = event.active.id;
+      dragIdRef.current = event.active.id as any;
       const el = dividerRef.current;
       const prev = el.previousElementSibling as HTMLDivElement;
       const next = el.nextElementSibling as HTMLDivElement;
@@ -87,7 +87,7 @@ const ColDivider = (props) => {
     },
     onDragEnd(event) {
       if (!dragIdRef.current) return;
-      if (dragIdRef.current?.startsWith(event.active.id)) {
+      if (dragIdRef.current?.startsWith(event.active.id as any)) {
         if (!dragIdRef.current.endsWith('_move')) {
           return;
         }
