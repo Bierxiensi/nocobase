@@ -56,7 +56,6 @@ SchemaInitializer.Button = observer(
     const { Component: CollectionComponent, getMenuItem, clean } = useMenuItem();
     const [shouldRender, setShouldRender] = useState(false);
     const [searchValue, setSearchValue] = useState('');
-    const { styles } = useStyles();
 
     if (!designable && props.designable !== true) {
       return null;
@@ -160,7 +159,6 @@ SchemaInitializer.Button = observer(
                 key: item.key || `item-group-${indexA}`,
                 label,
                 title: label,
-                popupClassName: styles.nbMenuItemGroup,
                 children: renderItems(item.children),
               }
             );
